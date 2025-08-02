@@ -1,25 +1,56 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title> H5P Standalone on GitHub Pages </title>
-  <link type="text/css" rel="stylesheet" media="all" href="./dist/styles/h5p.css" />
-  <meta charset="utf-8" />
-  <script type="text/javascript" src="./dist/main.bundle.js"></script>
+  <meta charset="UTF-8" />
+  <title>Comanda Mouse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Load H5P player styles -->
+  <link rel="stylesheet" href="https://unpkg.com/h5p-standalone@3.8.0/dist/styles/h5p.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #f9f9f9;
+      font-family: sans-serif;
+    }
+    #h5p-container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .error {
+      color: red;
+      font-size: 1.2em;
+    }
+  </style>
 </head>
-
 <body>
-  <div id="h5p-container"></div>
-  <script type="text/javascript">
-    const {
-      H5P
-    } = H5PStandalone;
-    new H5P(document.getElementById('h5p-container'), {
-      h5pJsonPath: 'h5p-folder',
-      frameJs: './dist/frame.bundle.js',
-      frameCss: './dist/styles/h5p.css'
+  <div id="h5p-container">
+    <div class="loading">Loading interactive content...</div>
+  </div>
+
+  <!-- Load the H5P Standalone JavaScript library -->
+  <script src="https://unpkg.com/h5p-standalone@3.8.0/dist/main.bundle.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const container = document.getElementById('h5p-container');
+
+      // Check if the library was loaded
+      if (typeof H5PStandalone === 'undefined') {
+        container.innerHTML = '<div class="error">❌ Error: H5PStandalone failed to load. Check your internet connection.</div>';
+        return;
+      }
+
+      // Initialize the H5P player
+      new H5PStandalone.H5P(container, {
+        h5pJsonPath: './content', // the unzipped .h5p folder
+        frameJs: 'https://unpkg.com/h5p-standalone@3.8.0/dist/frame.bundle.js',
+        frameCss: 'https://unpkg.com/h5p-standalone@3.8.0/dist/styles/h5p.css'
+      });
     });
   </script>
 </body>
-
 </html>
